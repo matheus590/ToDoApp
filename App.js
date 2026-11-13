@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
-import { StyleSheet,Text,View,TextInput,TouchableOpacity,ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
 
@@ -13,6 +14,12 @@ export default function App() {
     setListaTarefas([...listaTarefas, tarefaAtual]);
     setTarefaAtual('');
   }
+
+  const salvarTeste = async () => {
+    await AsyncStorage.setItem('chave_secreta', 'Felipe');
+
+    console.log('Teste salvo no cofre!');
+  };
 
   return (
     <View style={styles.container}>
@@ -35,14 +42,17 @@ export default function App() {
         <TextInput
           style={styles.input}
           placeholder="Digite a anotação..."
-          placeholderTextColor="#888"
+          placeholderTextColor="#000000"
           value={tarefaAtual}
           onChangeText={setTarefaAtual}
         />
 
         <TouchableOpacity
           style={styles.button}
-          onPress={adicionarTarefa}
+          onPress={() => {
+            adicionarTarefa();
+            salvarTeste();
+          }}
         >
           <Text style={styles.buttonText}>+</Text>
         </TouchableOpacity>
@@ -55,7 +65,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F7',
+    backgroundColor: '#ffffff',
     paddingHorizontal: 20,
     paddingTop: 50,
   },
